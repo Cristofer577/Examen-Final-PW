@@ -1,0 +1,16 @@
+.layout {
+  display: grid;
+  grid-template-columns: var(--ancho-sidebar) 1fr;
+  min-height: 100vh;
+}
+
+.contenido {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.pagina {
+  padding: 24px;
+  flex: 1;
+}

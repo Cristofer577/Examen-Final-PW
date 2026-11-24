@@ -1,0 +1,68 @@
+<app-page-header
+  titulo="Inventario de Alimentos"
+  subtitulo="Control de insumos y víveres del comedor comunitario."
+>
+  <button class="btn-primario" (click)="abrirNuevo()">+ Agregar alimento</button>
+</app-page-header>
+
+<div class="barra">
+  <app-search-bar placeholder="Buscar alimento o ingrediente..." (buscar)="buscar($event)" />
+</div>
+
+@if (servicio.cargando() || servicio.error()) {
+  <app-estado-panel
+    [cargando]="servicio.cargando()"
+    [error]="servicio.error()"
+    (reintentar)="servicio.cargar()"
+  />
+} @else {
+  @if (errorAccion(); as mensaje) {
+    <p class="alerta">⚠️ {{ mensaje }}</p>
+  }
+
+  <div class="card tabla-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>Unidad</th>
+          <th>Fecha de ingreso</th>
+          <th>Estado</th>
+          <th class="derecha">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (a of filtrados(); track a.id) {
+          @let e = estado(a);
+          <tr>
+            <td>
+              <strong>{{ a.nombre }}</strong>
+            </td>
+            <td class="cantidad">{{ a.cantidad }}</td>
+            <td>{{ a.unidad }}</td>
+            <td>{{ fecha(a.fechaIngreso) }}</td>
+            <td><app-status-badge [texto]="e.texto" [tipo]="e.tipo" /></td>
+            <td class="derecha">
+              <button class="btn-secundario" (click)="abrirEditar(a)">✏️ Editar</button>
+              <button class="btn-peligro" (click)="eliminar(a)">🗑️ Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="vacio">No se encontraron alimentos.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+
+@if (modalAbierto()) {
+  <app-alimento-form
+    [inicial]="editando()"
+    [errorRemoto]="errorModal()"
+    (guardar)="guardar($event)"
+    (cancelar)="cerrar()"
+  />
+}

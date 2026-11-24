@@ -1,0 +1,14 @@
+.buscador {
+  position: relative;
+  flex: 1;
+}
+.lupa {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+}
+.input {
+  padding-left: 36px;
+}

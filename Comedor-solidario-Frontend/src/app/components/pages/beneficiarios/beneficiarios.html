@@ -1,0 +1,81 @@
+<app-page-header
+  titulo="Beneficiarios"
+  subtitulo="Padrón general de personas y familias inscritas en el comedor comunitario."
+/>
+
+<div class="barra">
+  <app-search-bar
+    placeholder="Buscar por nombre, apellido o DNI (8 dígitos)..."
+    (buscar)="buscar($event)"
+  />
+  <button class="btn-primario" (click)="abrirNuevo()">+ Agregar beneficiario</button>
+</div>
+
+@if (servicio.cargando() || servicio.error()) {
+  <app-estado-panel
+    [cargando]="servicio.cargando()"
+    [error]="servicio.error()"
+    (reintentar)="servicio.cargar()"
+  />
+} @else {
+  <small class="conteo">
+    Mostrando {{ filtrados().length }} de {{ total() }} beneficiarios empadronados
+  </small>
+
+  @if (errorAccion(); as mensaje) {
+    <p class="alerta">⚠️ {{ mensaje }}</p>
+  }
+
+  <div class="card tabla-card">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre y Apellidos</th>
+          <th>DNI</th>
+          <th>Edad</th>
+          <th>Raciones</th>
+          <th>Teléfono</th>
+          <th class="derecha">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (b of filtrados(); track b.id) {
+          <tr>
+            <td>
+              <strong>{{ b.nombre }}</strong>
+              <small class="categoria">{{ b.categoria }}</small>
+            </td>
+            <td>{{ b.dni }}</td>
+            <td>
+              <span class="badge badge-verde">{{ b.edad }} años</span>
+              @if (etiquetaEdad(b.edad)) {
+                <small class="categoria">({{ etiquetaEdad(b.edad) }})</small>
+              }
+            </td>
+            <td>
+              <span class="badge badge-naranja">{{ b.raciones }}</span>
+            </td>
+            <td>{{ b.telefono }}</td>
+            <td class="derecha">
+              <button class="btn-secundario" (click)="abrirEditar(b)">✏️ Editar</button>
+              <button class="btn-peligro" (click)="eliminar(b)">🗑️ Eliminar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="6" class="vacio">No se encontraron beneficiarios.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}
+
+@if (modalAbierto()) {
+  <app-beneficiario-form
+    [inicial]="editando()"
+    [errorRemoto]="errorModal()"
+    (guardar)="guardar($event)"
+    (cancelar)="cerrar()"
+  />
+}

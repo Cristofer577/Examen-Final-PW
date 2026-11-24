@@ -1,0 +1,106 @@
+<small class="kicker">📋 JORNADA DE ATENCIÓN</small>
+
+<app-page-header titulo="Control de Raciones Diarias">
+  <div class="fecha">
+    <button class="btn-secundario" (click)="cambiarDia(-1)">‹</button>
+    <span class="fecha-texto">📅 {{ fechaTexto() }}</span>
+    <button class="btn-secundario" (click)="cambiarDia(1)">›</button>
+    <button class="btn-secundario" [disabled]="esHoy()" (click)="irAHoy()">Hoy</button>
+  </div>
+</app-page-header>
+
+@if (servicio.cargando() || servicio.error()) {
+  <app-estado-panel
+    [cargando]="servicio.cargando()"
+    [error]="servicio.error()"
+    (reintentar)="recargar()"
+  />
+} @else {
+  <section class="card resumen">
+    <div class="resumen-total">
+      <span class="icono">🍽️</span>
+      <div>
+        <small>Total de raciones del día</small>
+        <p class="numero">{{ servidas() }} <span>raciones</span></p>
+      </div>
+    </div>
+
+    <div class="resumen-progreso">
+      <small>Progreso de distribución</small>
+      <app-progress-bar [valor]="servidas()" [total]="meta()" />
+    </div>
+
+    <div class="resumen-meta">
+      <small>{{ pendientes() }} raciones pendientes</small>
+      <strong>Meta: {{ meta() }}</strong>
+    </div>
+  </section>
+
+  <div class="barra">
+    <app-search-bar placeholder="Buscar por apellido, nombre o DNI..." (buscar)="buscar($event)" />
+    <div class="filtros">
+      <button class="chip" [class.activo]="filtro() === 'todos'" (click)="filtro.set('todos')">
+        Ver todos ({{ borrador().length }})
+      </button>
+      <button
+        class="chip"
+        [class.activo]="filtro() === 'entregados'"
+        (click)="filtro.set('entregados')"
+      >
+        Entregados ({{ cantidadEntregados() }})
+      </button>
+      <button
+        class="chip"
+        [class.activo]="filtro() === 'pendientes'"
+        (click)="filtro.set('pendientes')"
+      >
+        Pendientes ({{ cantidadPendientes() }})
+      </button>
+    </div>
+  </div>
+
+  <section class="card lista">
+    @for (r of visibles(); track r.beneficiarioId) {
+      <label class="fila" [class.marcada]="r.entregado">
+        <input type="checkbox" [checked]="r.entregado" (change)="alternar(r.beneficiarioId)" />
+
+        <div class="info">
+          <div class="nombre">
+            <strong>{{ r.familia }}</strong>
+            @if (r.etiqueta) {
+              <span class="badge badge-naranja">{{ r.etiqueta }}</span>
+            }
+          </div>
+          <small class="subtitulo">DNI: {{ r.dni }} • Código: {{ r.codigo }}</small>
+        </div>
+
+        <div class="estado">
+          <strong>{{ r.raciones }} {{ r.raciones === 1 ? 'ración' : 'raciones' }}</strong>
+          @if (r.entregado) {
+            <app-status-badge texto="Entregado" tipo="verde" />
+          } @else {
+            <app-status-badge texto="Sin entregar" tipo="naranja" />
+          }
+        </div>
+      </label>
+    } @empty {
+      <p class="vacio">No hay familias que coincidan con la búsqueda.</p>
+    }
+  </section>
+
+  <section class="card confirmacion">
+    <div>
+      <strong>Confirmación del Día</strong>
+      <small class="subtitulo">Los cambios marcados se aplicarán al registro oficial.</small>
+      @if (errorGuardar(); as mensaje) {
+        <p class="alerta">⚠️ {{ mensaje }}</p>
+      }
+    </div>
+    <div class="confirmacion-accion">
+      @if (guardado()) {
+        <span class="badge badge-verde">✔ Registro guardado</span>
+      }
+      <button class="btn-primario" (click)="guardar()">Guardar registro</button>
+    </div>
+  </section>
+}

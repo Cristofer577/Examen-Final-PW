@@ -1,0 +1,150 @@
+.bienvenida {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  background: var(--blanco);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 20px;
+  margin-bottom: 16px;
+}
+.fecha {
+  color: var(--verde-principal);
+  font-weight: 600;
+}
+.bienvenida .btn-primario {
+  white-space: nowrap;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.tarjetas .card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.tarjeta-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--texto-suave);
+  font-weight: 600;
+}
+.icono {
+  background: var(--verde-claro);
+  border-radius: var(--radio-pequeno);
+  padding: 6px;
+}
+.numero {
+  font-size: 30px;
+  font-weight: 800;
+}
+.numero span {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--texto-suave);
+}
+.numero.critico {
+  color: var(--rojo);
+}
+.nota {
+  color: var(--texto-suave);
+}
+
+.grupos {
+  background: var(--fondo);
+  border-radius: var(--radio-pequeno);
+  padding: 10px;
+  font-size: 12px;
+}
+.grupos p {
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+.criticos {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+}
+.criticos li {
+  display: flex;
+  justify-content: space-between;
+}
+.restante {
+  color: var(--rojo);
+  font-weight: 600;
+}
+.ver-despensa {
+  text-align: center;
+  margin-top: auto;
+}
+
+.movimientos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.movimientos-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.movimientos h2 {
+  font-size: 16px;
+  font-weight: 700;
+}
+.movimiento {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--borde);
+}
+.avatar-mov {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--verde-claro);
+  display: grid;
+  place-items: center;
+}
+.movimiento-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.movimiento-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.movimiento-hora {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+}
+.historial {
+  width: 100%;
+  padding: 10px;
+}
+
+@media (max-width: 1000px) {
+  .tarjetas {
+    grid-template-columns: 1fr;
+  }
+  .bienvenida {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

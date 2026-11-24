@@ -1,0 +1,92 @@
+<main class="pantalla">
+  <section class="tarjeta">
+    <div class="marca">
+      <div class="logo">🍲</div>
+      <span class="badge badge-verde">📍 Huancayo • Valle del Mantaro</span>
+      <h1>Comedor Solidario</h1>
+      <p class="subtitulo">Sistema Comunitario de Huancayo • Junín</p>
+    </div>
+
+    <div class="bienvenida">
+      <strong>¡Bienvenida al sistema de tu comedor!</strong>
+      <p>
+        Ingresa con tu usuario y clave para registrar las raciones, el menú y los beneficiarios de
+        hoy.
+      </p>
+    </div>
+
+    <form novalidate (submit)="$event.preventDefault(); ingresar()">
+      <label class="campo">
+        <span>Usuario o DNI</span>
+        <input
+          class="input"
+          type="text"
+          placeholder="Ej: 10458921 o maria.huaman"
+          [formField]="loginForm.usuario"
+        />
+        @if (loginForm.usuario().touched() && loginForm.usuario().invalid()) {
+          <small class="error">{{ loginForm.usuario().errors()[0].message }}</small>
+        }
+      </label>
+
+      <label class="campo">
+        <span>Contraseña</span>
+        <div class="clave">
+          <input
+            class="input"
+            [type]="mostrarClave() ? 'text' : 'password'"
+            placeholder="Escribe aquí tu clave"
+            [formField]="loginForm.clave"
+          />
+          <button type="button" class="ojo" (click)="alternarClave()">
+            {{ mostrarClave() ? '🙈' : '👁️' }}
+          </button>
+        </div>
+        @if (loginForm.clave().touched() && loginForm.clave().invalid()) {
+          <small class="error">{{ loginForm.clave().errors()[0].message }}</small>
+        }
+      </label>
+
+      <div class="rapido">
+        <small>Acceso rápido para pruebas o socias de turno:</small>
+        <div class="rapido-botones">
+          <button type="button" class="btn-secundario" (click)="accesoRapido('encargada')">
+            Como Encargada
+          </button>
+          <button type="button" class="btn-secundario" (click)="accesoRapido('socia')">
+            Socia de Turno
+          </button>
+        </div>
+      </div>
+
+      @if (error(); as mensaje) {
+        <p class="error-servidor">{{ mensaje }}</p>
+      }
+
+      <button type="submit" class="btn-primario entrar" [disabled]="cargando()">
+        {{ cargando() ? 'Ingresando…' : 'Ingresar al Comedor' }}
+      </button>
+    </form>
+
+    <div class="ayuda">
+      <strong>¿Olvidaste la clave o necesitas ayuda?</strong>
+      <p>
+        No te preocupes. Puedes comunicarte directamente con la junta directiva o la encargada de
+        Huancayo.
+      </p>
+      <div class="ayuda-botones">
+        <a class="btn-secundario" href="tel:964123456">📞 Llamar: 964 123 456</a>
+        <a class="btn-primario" href="https://wa.me/51964123456" target="_blank"
+          >Pedir ayuda por WhatsApp</a
+        >
+      </div>
+    </div>
+  </section>
+
+  <footer class="pie">
+    <small class="labor">❤️ LABOR DE AMOR Y SOLIDARIDAD</small>
+    <p>
+      "Tu trabajo diario alimenta con cariño y fortalece la esperanza de toda nuestra comunidad."
+    </p>
+  </footer>
+</main>

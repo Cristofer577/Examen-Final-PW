@@ -1,0 +1,36 @@
+<aside class="sidebar">
+  <div class="marca">
+    <div class="logo">🍲</div>
+    <div>
+      <strong>Comedor Solidario</strong>
+      <small>Huancayo, Junín</small>
+    </div>
+  </div>
+
+  <div class="turno">
+    <span>{{ rol() }}</span>
+    <span class="badge badge-verde">Activo</span>
+  </div>
+
+  <nav class="menu">
+    @for (item of menu; track item.ruta) {
+      <a [routerLink]="item.ruta" routerLinkActive="activo" class="enlace">
+        <span>{{ item.icono }}</span>
+        {{ item.texto }}
+      </a>
+    }
+  </nav>
+
+  <div class="usuario">
+    <div class="usuario-datos">
+      <div class="avatar">{{ inicial() }}</div>
+      <div>
+        <strong>{{ nombre() }}</strong>
+        <small>{{ rol() }}</small>
+      </div>
+    </div>
+    <button type="button" class="btn-secundario cerrar" (click)="cerrarSesion()">
+      Cerrar sesión
+    </button>
+  </div>
+</aside>

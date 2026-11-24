@@ -1,0 +1,90 @@
+<small class="kicker">📈 Módulo de Monitoreo • Huancayo</small>
+
+<app-page-header
+  titulo="Reportes de Raciones"
+  subtitulo="Seguimiento visual del volumen diario de raciones servidas y cumplimiento de meta alimentaria."
+>
+  <button class="btn-primario" (click)="descargar()">⬇ Descargar reporte</button>
+</app-page-header>
+
+<section class="card filtro">
+  <label class="campo">
+    <span>Desde:</span>
+    <input class="input" type="date" [formField]="formulario.desde" />
+    @if (formulario.desde().touched() && formulario.desde().invalid()) {
+      <small class="error">{{ formulario.desde().errors()[0].message }}</small>
+    }
+  </label>
+  <label class="campo">
+    <span>Hasta:</span>
+    <input class="input" type="date" [formField]="formulario.hasta" />
+    @if (formulario.hasta().touched() && formulario.hasta().invalid()) {
+      <small class="error">{{ formulario.hasta().errors()[0].message }}</small>
+    }
+  </label>
+  <button class="btn-primario" (click)="verReporte()">Ver reporte</button>
+</section>
+
+<section class="card grafico-card">
+  <div class="grafico-cabecera">
+    <div>
+      <h2>Raciones Servidas por Día</h2>
+      <small class="subtitulo"
+        >Comparativa diaria frente a la cuota institucional programada.</small
+      >
+    </div>
+    <div class="leyenda">
+      <span class="punto verde"></span> Raciones servidas <span class="linea"></span> Meta diaria:
+      {{ meta() }}
+    </div>
+  </div>
+
+  @if (servicio.cargando() || servicio.error()) {
+    <app-estado-panel
+      [cargando]="servicio.cargando()"
+      [error]="servicio.error()"
+      (reintentar)="recargar()"
+    />
+  } @else {
+    @if (datos().length) {
+      <div class="plot">
+        @for (m of marcas(); track m) {
+          <div class="guia" [style.bottom.%]="(m / maximo()) * 100">
+            <span class="marca">{{ m }}</span>
+          </div>
+        }
+
+        <div class="meta-linea" [style.bottom.%]="(meta() / maximo()) * 100"></div>
+
+        <div class="barras">
+          @for (d of datos(); track d.fecha) {
+            <div class="col">
+              <span class="valor">{{ d.servidas }}</span>
+              <div class="barra" [style.height.%]="(d.servidas / maximo()) * 100"></div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="etiquetas">
+        @for (d of datos(); track d.fecha) {
+          <div class="etiqueta">
+            <strong>{{ diaSemana(d.fecha) }}</strong>
+            <small>{{ diaMes(d.fecha) }}</small>
+          </div>
+        }
+      </div>
+    } @else {
+      <p class="vacio">No hay datos en el rango de fechas elegido.</p>
+    }
+
+    <div class="totales">
+      <span
+        >Total servido en este periodo: <strong>{{ total() }} raciones</strong></span
+      >
+      <span
+        >Promedio diario: <strong>{{ promedio() }} raciones</strong></span
+      >
+    </div>
+  }
+</section>

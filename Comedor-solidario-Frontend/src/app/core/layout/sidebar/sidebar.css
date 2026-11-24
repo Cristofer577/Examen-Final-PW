@@ -1,0 +1,89 @@
+.sidebar {
+  background: var(--blanco);
+  border-right: 1px solid var(--borde);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.marca small,
+.usuario small {
+  display: block;
+  color: var(--texto-suave);
+  font-size: 11px;
+}
+.logo {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radio-pequeno);
+  background: var(--verde-claro);
+  display: grid;
+  place-items: center;
+}
+
+.turno {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-pequeno);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+.enlace {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radio-pequeno);
+  color: var(--texto-suave);
+  font-weight: 500;
+}
+.enlace:hover {
+  background: var(--fondo);
+}
+.enlace.activo {
+  background: var(--verde-principal);
+  color: var(--blanco);
+}
+
+.usuario {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.usuario-datos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--verde-claro);
+  color: var(--verde-principal);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}
+.cerrar {
+  text-align: center;
+  width: 100%;
+}

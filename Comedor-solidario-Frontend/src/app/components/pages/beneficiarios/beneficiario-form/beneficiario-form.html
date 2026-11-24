@@ -1,0 +1,72 @@
+<div class="fondo" (click)="cancelar.emit()">
+  <div class="modal card" (click)="$event.stopPropagation()">
+    <h2>{{ inicial() ? 'Editar beneficiario' : 'Agregar beneficiario' }}</h2>
+
+    <form novalidate (submit)="$event.preventDefault(); enviar()">
+      <label class="campo">
+        <span>Nombres y apellidos</span>
+        <input class="input" type="text" [formField]="formulario.nombre" />
+        @if (formulario.nombre().touched() && formulario.nombre().invalid()) {
+          <small class="error">{{ formulario.nombre().errors()[0].message }}</small>
+        }
+      </label>
+
+      <label class="campo">
+        <span>Categoría</span>
+        <select class="input" [formField]="formulario.categoria">
+          @for (c of categorias; track c) {
+            <option [value]="c">{{ c }}</option>
+          }
+        </select>
+      </label>
+
+      <div class="fila">
+        <label class="campo">
+          <span>DNI</span>
+          <input class="input" type="text" [formField]="formulario.dni" />
+          @if (formulario.dni().touched() && formulario.dni().invalid()) {
+            <small class="error">{{ formulario.dni().errors()[0].message }}</small>
+          }
+        </label>
+
+        <label class="campo">
+          <span>Edad</span>
+          <input class="input" type="number" [formField]="formulario.edad" />
+          @if (formulario.edad().touched() && formulario.edad().invalid()) {
+            <small class="error">{{ formulario.edad().errors()[0].message }}</small>
+          }
+        </label>
+      </div>
+
+      <label class="campo">
+        <span>Teléfono</span>
+        <input
+          class="input"
+          type="text"
+          placeholder="964 123 456"
+          [formField]="formulario.telefono"
+        />
+        @if (formulario.telefono().touched() && formulario.telefono().invalid()) {
+          <small class="error">{{ formulario.telefono().errors()[0].message }}</small>
+        }
+      </label>
+
+      <label class="campo">
+        <span>Raciones por familia</span>
+        <input class="input" type="number" [formField]="formulario.raciones" />
+        @if (formulario.raciones().touched() && formulario.raciones().invalid()) {
+          <small class="error">{{ formulario.raciones().errors()[0].message }}</small>
+        }
+      </label>
+
+      @if (errorRemoto(); as mensaje) {
+        <small class="error">{{ mensaje }}</small>
+      }
+
+      <div class="botones">
+        <button type="button" class="btn-secundario" (click)="cancelar.emit()">Cancelar</button>
+        <button type="submit" class="btn-primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

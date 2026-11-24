@@ -1,0 +1,63 @@
+<div class="fondo" (click)="cancelar.emit()">
+  <div class="modal card" (click)="$event.stopPropagation()">
+    <h2>{{ inicial() ? 'Editar alimento' : 'Agregar alimento' }}</h2>
+
+    <form novalidate (submit)="$event.preventDefault(); enviar()">
+      <label class="campo">
+        <span>Nombre del alimento</span>
+        <input class="input" type="text" [formField]="formulario.nombre" />
+        @if (formulario.nombre().touched() && formulario.nombre().invalid()) {
+          <small class="error">{{ formulario.nombre().errors()[0].message }}</small>
+        }
+      </label>
+
+      <div class="fila">
+        <label class="campo">
+          <span>Cantidad</span>
+          <input class="input" type="number" [formField]="formulario.cantidad" />
+          @if (formulario.cantidad().touched() && formulario.cantidad().invalid()) {
+            <small class="error">{{ formulario.cantidad().errors()[0].message }}</small>
+          }
+        </label>
+
+        <label class="campo">
+          <span>Unidad</span>
+          <select class="input" [formField]="formulario.unidad">
+            @for (u of unidades; track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </label>
+      </div>
+
+      <div class="fila">
+        <label class="campo">
+          <span>Fecha de ingreso</span>
+          <input class="input" type="date" [formField]="formulario.fechaIngreso" />
+          @if (formulario.fechaIngreso().touched() && formulario.fechaIngreso().invalid()) {
+            <small class="error">{{ formulario.fechaIngreso().errors()[0].message }}</small>
+          }
+        </label>
+
+        <label class="campo">
+          <span>Stock mínimo</span>
+          <input class="input" type="number" [formField]="formulario.stockMinimo" />
+          @if (formulario.stockMinimo().touched() && formulario.stockMinimo().invalid()) {
+            <small class="error">{{ formulario.stockMinimo().errors()[0].message }}</small>
+          }
+        </label>
+      </div>
+
+      <small class="ayuda">Con esa cantidad o menos, el alimento aparece como "Poco stock".</small>
+
+      @if (errorRemoto(); as mensaje) {
+        <small class="error">{{ mensaje }}</small>
+      }
+
+      <div class="botones">
+        <button type="button" class="btn-secundario" (click)="cancelar.emit()">Cancelar</button>
+        <button type="submit" class="btn-primario">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>

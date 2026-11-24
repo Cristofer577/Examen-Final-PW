@@ -1,0 +1,101 @@
+<section class="bienvenida">
+  <div>
+    <small class="fecha">📅 {{ fecha }} • Turno Almuerzo</small>
+    <h1 class="titulo-pagina">{{ bienvenida() }}</h1>
+    <p class="subtitulo">
+      Aquí tienes el resumen y control diario del Comedor San Carlos. Tu labor alimenta a toda la
+      comunidad.
+    </p>
+  </div>
+  <a routerLink="/raciones" class="btn-primario">+ Registrar raciones de hoy</a>
+</section>
+
+@if (servicio.cargando() || servicio.error()) {
+  <app-estado-panel
+    [cargando]="servicio.cargando()"
+    [error]="servicio.error()"
+    (reintentar)="servicio.cargar()"
+  />
+} @else if (resumen(); as r) {
+  <section class="tarjetas">
+    <article class="card">
+      <div class="tarjeta-top">
+        <small>Raciones servidas hoy</small>
+        <span class="icono">🍽️</span>
+      </div>
+      <p class="numero">
+        {{ r.raciones.servidas }} <span>/ {{ r.raciones.meta }} raciones</span>
+      </p>
+      <app-progress-bar [valor]="r.raciones.servidas" [total]="r.raciones.meta" />
+      <small class="nota">Faltan {{ faltan() }} raciones para cerrar el turno de la tarde.</small>
+    </article>
+
+    <article class="card">
+      <div class="tarjeta-top">
+        <small>Población beneficiaria</small>
+        <span class="icono">👥</span>
+      </div>
+      <p class="numero">{{ r.poblacion.total }} <span>personas</span></p>
+      <div class="grupos">
+        <strong>Grupos de protección</strong>
+        <p>
+          {{ r.poblacion.adultosMayores }} adultos mayores • {{ r.poblacion.ninos }} niños en edad
+          escolar y madres gestantes empadronadas.
+        </p>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="tarjeta-top">
+        <small>Atención de despensa</small>
+        <span class="icono">🛒</span>
+      </div>
+      <p class="numero critico">{{ r.insumosCriticos.length }} <span>insumos críticos</span></p>
+      <ul class="criticos">
+        @for (item of r.insumosCriticos; track item.nombre) {
+          <li>
+            <span>{{ item.nombre }}</span>
+            <span class="restante">{{ item.cantidad }} {{ item.unidad }} • {{ item.estado }}</span>
+          </li>
+        } @empty {
+          <li><span class="restante">No hay insumos en nivel crítico.</span></li>
+        }
+      </ul>
+      <a routerLink="/inventario" class="btn-secundario ver-despensa">Revisar despensa completa</a>
+    </article>
+  </section>
+}
+
+<section class="card movimientos">
+  <div class="movimientos-cabecera">
+    <div>
+      <h2>Últimos movimientos registrados</h2>
+      <small class="subtitulo">Entregas de almuerzo registradas durante la mañana</small>
+    </div>
+    <span class="badge badge-verde">Actualizado al instante</span>
+  </div>
+
+  @for (m of movimientos; track m.id) {
+    <div class="movimiento">
+      <div class="avatar-mov">{{ m.icono }}</div>
+      <div class="movimiento-info">
+        <div class="movimiento-titulo">
+          <strong>{{ m.beneficiario }}</strong>
+          <span class="badge badge-verde">{{ m.raciones }} raciones</span>
+          @if (m.etiqueta) {
+            <span class="badge badge-naranja">{{ m.etiqueta }}</span>
+          }
+        </div>
+        <small class="subtitulo">{{ m.detalle }}</small>
+      </div>
+      <div class="movimiento-hora">
+        <small>{{ m.hace }}</small>
+        <small class="subtitulo">Por: {{ m.registradoPor }}</small>
+      </div>
+    </div>
+  }
+
+  <button class="btn-secundario historial">
+    Ver todo el historial de hoy ({{ servidas() }} raciones)
+  </button>
+</section>

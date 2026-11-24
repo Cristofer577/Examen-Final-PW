@@ -1,0 +1,54 @@
+.fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 10;
+}
+.modal {
+  width: 100%;
+  max-width: 420px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.modal h2 {
+  font-size: 18px;
+  font-weight: 800;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-weight: 600;
+  font-size: 13px;
+  flex: 1;
+}
+.fila {
+  display: flex;
+  gap: 12px;
+}
+.error {
+  color: var(--rojo);
+  font-weight: 500;
+}
+.botones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}
+.botones button {
+  padding: 10px 18px;
+}
+.ayuda {
+  color: var(--texto-suave);
+}

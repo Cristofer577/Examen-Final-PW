@@ -1,0 +1,10 @@
+<div class="buscador">
+  <span class="lupa">🔍</span>
+  <input
+    #caja
+    class="input"
+    type="text"
+    [placeholder]="placeholder()"
+    (input)="buscar.emit(caja.value)"
+  />
+</div>

@@ -1,0 +1,28 @@
+.header {
+  height: var(--alto-header);
+  background: var(--blanco);
+  border-bottom: 1px solid var(--borde);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ubicacion {
+  color: var(--texto-suave);
+  font-size: 13px;
+}
+.derecha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--verde-claro);
+  color: var(--verde-principal);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+}

@@ -1,0 +1,16 @@
+.pista {
+  height: 8px;
+  background: var(--verde-claro);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.relleno {
+  height: 100%;
+  background: var(--verde-principal);
+  border-radius: 999px;
+  transition: width 0.3s;
+}
+.texto {
+  color: var(--texto-suave);
+  font-size: 11px;
+}

@@ -1,0 +1,9 @@
+<div class="card estado" role="status">
+  @if (cargando()) {
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Cargando información…</p>
+  } @else if (error(); as mensaje) {
+    <p class="mensaje">⚠️ {{ mensaje }}</p>
+    <button type="button" class="btn-secundario" (click)="reintentar.emit()">Reintentar</button>
+  }
+</div>
